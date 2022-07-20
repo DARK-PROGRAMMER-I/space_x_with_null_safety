@@ -7,22 +7,22 @@ import '../views/launches/index.dart';
 import 'index.dart';
 
 class LaunchCell extends StatelessWidget {
-  final Launch launch;
+  final Launch? launch;
 
-  const LaunchCell(this.launch, {Key key}) : super(key: key);
+  const LaunchCell(this.launch, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       ListCell(
-        leading: ProfileImage.small(launch.patchUrl),
-        title: launch.name,
-        subtitle: launch.getLaunchDate(context),
-        trailing: TrailingText(launch.getNumber),
+        leading: ProfileImage.small(launch!.patchUrl!),
+        title: launch!.name,
+        subtitle: launch!.getLaunchDate(context),
+        trailing: TrailingText(launch!.getNumber),
         onTap: () => Navigator.pushNamed(
           context,
           LaunchPage.route,
-          arguments: {'id': launch.id},
+          arguments: {'id': launch!.id},
         ),
       ),
       Separator.divider(indent: 72)

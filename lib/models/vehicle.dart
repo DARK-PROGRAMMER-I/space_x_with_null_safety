@@ -9,19 +9,19 @@ import '../utils/index.dart';
 /// Details about a specific SpaceX vehicle.
 /// Vehicles are considered Roadster, Dragons & Falcons, and ships.
 abstract class Vehicle extends Equatable {
-  final String id;
-  final String name;
-  final String type;
-  final String description;
-  final String url;
-  final num height;
-  final num diameter;
-  final num mass;
-  final bool active;
-  final DateTime firstFlight;
-  final List<String> photos;
+  final String? id;
+  final String? name;
+  final String? type;
+  final String? description;
+  final String? url;
+  final num? height;
+  final num? diameter;
+  final num? mass;
+  final bool? active;
+  final DateTime? firstFlight;
+  final List<String>? photos;
 
-  const Vehicle({
+  Vehicle({
     this.id,
     this.name,
     this.type,
@@ -37,13 +37,13 @@ abstract class Vehicle extends Equatable {
 
   String subtitle(BuildContext context);
 
-  String getPhoto(int index) => photos[index];
+  String getPhoto(int index) => photos![index];
 
   String get getProfilePhoto => getPhoto(0);
 
-  String getRandomPhoto([Random random]) {
+  String getRandomPhoto([Random? random]) {
     final rng = random ?? Random();
-    return photos[rng.nextInt(photos.length)];
+    return photos![rng.nextInt(photos!.length)];
   }
 
   String get getHeight => '${NumberFormat.decimalPattern().format(height)} m';
@@ -51,22 +51,22 @@ abstract class Vehicle extends Equatable {
   String get getDiameter =>
       '${NumberFormat.decimalPattern().format(diameter)} m';
 
-  String getMass(BuildContext context) => mass == null
+  String? getMass(BuildContext context) => mass == null
       ? context.translate('spacex.other.unknown')
       : '${NumberFormat.decimalPattern().format(mass)} kg';
 
-  String get getFirstFlight => DateFormat.yMMMM().format(firstFlight);
+  String get getFirstFlight => DateFormat.yMMMM().format(firstFlight!);
 
-  String get getFullFirstFlight => DateTime.now().isAfter(firstFlight)
-      ? DateFormat.yMMMMd().format(firstFlight)
+  String get getFullFirstFlight => DateTime.now().isAfter(firstFlight!)
+      ? DateFormat.yMMMMd().format(firstFlight!)
       : getFirstFlight;
 
   String firstLaunched(BuildContext context) => context.translate(
-        DateTime.now().isAfter(firstFlight)
+        DateTime.now().isAfter(firstFlight!)
             ? 'spacex.vehicle.subtitle.first_launched'
             : 'spacex.vehicle.subtitle.scheduled_launch',
         parameters: {'date': getFirstFlight},
-      );
+      )!;
 
-  String get year => firstFlight.year.toString();
+  String get year => firstFlight!.year.toString();
 }

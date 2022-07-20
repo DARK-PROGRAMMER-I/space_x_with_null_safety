@@ -46,17 +46,17 @@ class _StartScreenState extends State<StartScreen> {
         await quickActions.setShortcutItems(<ShortcutItem>[
           ShortcutItem(
             type: 'vehicles',
-            localizedTitle: context.translate('spacex.vehicle.icon'),
+            localizedTitle: context.translate('spacex.vehicle.icon')!,
             icon: 'action_vehicle',
           ),
           ShortcutItem(
             type: 'upcoming',
-            localizedTitle: context.translate('spacex.upcoming.icon'),
+            localizedTitle: context.translate('spacex.upcoming.icon')!,
             icon: 'action_upcoming',
           ),
           ShortcutItem(
             type: 'latest',
-            localizedTitle: context.translate('spacex.latest.icon'),
+            localizedTitle: context.translate('spacex.latest.icon')!,
             icon: 'action_latest',
           ),
         ]);
@@ -69,10 +69,10 @@ class _StartScreenState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     try {
-      context.watch<NotificationsCubit>()?.updateNotifications(
+      context.watch<NotificationsCubit>().updateNotifications(
             context,
             nextLaunch: LaunchUtils.getUpcomingLaunch(
-              context.watch<LaunchesCubit>().state.value,
+              context.watch<LaunchesCubit>().state.value!,
             ),
           );
     } catch (_) {
@@ -110,11 +110,11 @@ class _StartScreenState extends State<StartScreen> {
               height: 24,
               color: _currentIndex != 1
                   ? Theme.of(context).brightness == Brightness.light
-                      ? Theme.of(context).textTheme.caption.color
+                      ? Theme.of(context).textTheme.caption!.color
                       : Colors.black26
                   : Theme.of(context).brightness == Brightness.light
                       ? Theme.of(context).primaryColor
-                      : Theme.of(context).accentColor,
+                      : Theme.of(context).colorScheme.secondary,
             ),
           ),
           BottomNavigationBarItem(

@@ -7,22 +7,22 @@ import 'index.dart';
 
 /// General information about a Dragon capsule.
 class DragonVehicle extends Vehicle {
-  final num crew, launchMass, returnMass;
-  final List<Thruster> thrusters;
-  final bool reusable;
+  final num? crew, launchMass, returnMass;
+  final List<Thruster>? thrusters;
+  final bool? reusable;
 
-  const DragonVehicle({
-    String id,
-    String name,
-    String type,
-    String description,
-    String url,
-    num height,
-    num diameter,
-    num mass,
-    bool active,
-    DateTime firstFlight,
-    List<String> photos,
+  DragonVehicle({
+    String? id,
+    String? name,
+    String? type,
+    String? description,
+    String? url,
+    num ?height,
+    num ?diameter,
+    num ?mass,
+    bool? active,
+    DateTime? firstFlight,
+    List<String>? photos,
     this.crew,
     this.launchMass,
     this.returnMass,
@@ -70,7 +70,7 @@ class DragonVehicle extends Vehicle {
 
   bool get isCrewEnabled => crew != 0;
 
-  String getCrew(BuildContext context) => isCrewEnabled
+  String? getCrew(BuildContext context) => isCrewEnabled
       ? context.translate(
           'spacex.vehicle.capsule.description.people',
           parameters: {'people': crew.toString()},
@@ -84,7 +84,7 @@ class DragonVehicle extends Vehicle {
       '${NumberFormat.decimalPattern().format(returnMass)} kg';
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         name,
         type,
@@ -106,12 +106,12 @@ class DragonVehicle extends Vehicle {
 
 /// Auxiliar model used to storage Dragon's thrusters data.
 class Thruster extends Equatable {
-  final String model;
-  final String fuel;
-  final String oxidizer;
-  final num amount;
-  final num thrust;
-  final num isp;
+  final String? model;
+  final String? fuel;
+  final String? oxidizer;
+  final num? amount;
+  final num? thrust;
+  final num? isp;
 
   const Thruster({
     this.model,
@@ -133,9 +133,9 @@ class Thruster extends Equatable {
     );
   }
 
-  String get getFuel => toBeginningOfSentenceCase(fuel);
+  String? get getFuel => toBeginningOfSentenceCase(fuel);
 
-  String get getOxidizer => toBeginningOfSentenceCase(oxidizer);
+  String? get getOxidizer => toBeginningOfSentenceCase(oxidizer);
 
   String get getAmount => amount.toString();
 
@@ -144,7 +144,7 @@ class Thruster extends Equatable {
   String get getIsp => '${NumberFormat.decimalPattern().format(isp)} s';
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         model,
         fuel,
         oxidizer,

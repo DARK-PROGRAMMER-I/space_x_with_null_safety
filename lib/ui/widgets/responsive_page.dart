@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ResponsivePage extends StatelessWidget {
-  final Widget child;
-  final double width;
-  final Size breakpoint;
-  final Duration transformDuration;
-  final Curve transformationCurve;
+  final Widget? child;
+  final double? width;
+  final Size? breakpoint;
+  final Duration? transformDuration;
+  final Curve? transformationCurve;
 
   const ResponsivePage({
-    Key key,
+    Key? key,
     @required this.child,
     this.width = 560,
     this.breakpoint = const Size(600, 600),
@@ -19,16 +19,16 @@ class ResponsivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentSize = MediaQuery.of(context).size;
-    final isMobile = currentSize.width < breakpoint.width ||
-        currentSize.height < breakpoint.height;
+    final isMobile = currentSize.width < breakpoint!.width ||
+        currentSize.height < breakpoint!.height;
 
     return AnimatedContainer(
-      duration: transformDuration,
-      curve: transformationCurve,
+      duration: transformDuration!,
+      curve: transformationCurve!,
       padding: isMobile
           ? EdgeInsets.zero
           : EdgeInsets.symmetric(
-              horizontal: (currentSize.width - width) / 2,
+              horizontal: (currentSize.width - width!) / 2,
               vertical: 96,
             ),
       child: isMobile

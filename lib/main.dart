@@ -31,7 +31,7 @@ Future<void> main() async {
             android: AndroidNotificationDetails(
               'channel.launches',
               'Launches notifications',
-              'Stay up-to-date with upcoming SpaceX launches',
+              // 'Stay up-to-date with upcoming SpaceX launches',
               importance: Importance.high,
             ),
             iOS: IOSNotificationDetails(),
@@ -65,14 +65,14 @@ Future<void> main() async {
 
 /// Builds the neccesary cubits, as well as the home page.
 class CherryApp extends StatelessWidget {
-  final NotificationsCubit notificationsCubit;
-  final VehiclesRepository vehiclesRepository;
-  final LaunchesRepository launchesRepository;
-  final AchievementsRepository achievementsRepository;
-  final CompanyRepository companyRepository;
-  final ChangelogRepository changelogRepository;
+  final NotificationsCubit? notificationsCubit;
+  final VehiclesRepository? vehiclesRepository;
+  final LaunchesRepository? launchesRepository;
+  final AchievementsRepository? achievementsRepository;
+  final CompanyRepository ?companyRepository;
+  final ChangelogRepository? changelogRepository;
 
-  const CherryApp({
+  CherryApp({
     this.notificationsCubit,
     this.vehiclesRepository,
     this.launchesRepository,
@@ -88,12 +88,12 @@ class CherryApp extends StatelessWidget {
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => ImageQualityCubit()),
         BlocProvider(create: (_) => BrowserCubit()),
-        BlocProvider.value(value: notificationsCubit),
-        BlocProvider(create: (_) => VehiclesCubit(vehiclesRepository)),
-        BlocProvider(create: (_) => LaunchesCubit(launchesRepository)),
-        BlocProvider(create: (_) => AchievementsCubit(achievementsRepository)),
-        BlocProvider(create: (_) => CompanyCubit(companyRepository)),
-        BlocProvider(create: (_) => ChangelogCubit(changelogRepository)),
+        // BlocProvider.value(value: notificationsCubit),
+        BlocProvider(create: (_) => VehiclesCubit(vehiclesRepository!)),
+        BlocProvider(create: (_) => LaunchesCubit(launchesRepository!)),
+        BlocProvider(create: (_) => AchievementsCubit(achievementsRepository!)),
+        BlocProvider(create: (_) => CompanyCubit(companyRepository!)),
+        BlocProvider(create: (_) => ChangelogCubit(changelogRepository!)),
       ],
       child: BlocConsumer<ThemeCubit, ThemeState>(
         listener: (context, state) => null,
@@ -107,7 +107,7 @@ class CherryApp extends StatelessWidget {
           localizationsDelegates: [
             FlutterI18nDelegate(
               translationLoader: FileTranslationLoader(),
-            )..load(null),
+            )..load(Locale('en')),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate
           ],

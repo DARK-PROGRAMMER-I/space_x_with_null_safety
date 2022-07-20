@@ -17,9 +17,9 @@ typedef RequestListBuilderLoaded<T> = List<Widget> Function(
 /// Basic screen, which includes an [AppBar] widget.
 /// Used when the desired page doesn't have slivers or reloading.
 class SimplePage extends StatelessWidget {
-  final String title;
-  final Widget body, fab;
-  final List<Widget> actions;
+  final String? title;
+  final Widget? body, fab;
+  final List<Widget>? actions;
 
   const SimplePage({
     @required this.title,
@@ -33,7 +33,7 @@ class SimplePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          title!,
           style: GoogleFonts.rubik(fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
@@ -50,10 +50,10 @@ class SimplePage extends StatelessWidget {
 ///
 /// This page also has state control via a `RequestCubit` parameter.
 class RequestSimplePage<C extends RequestCubit, T> extends StatelessWidget {
-  final String title;
-  final Widget fab;
-  final RequestWidgetBuilderLoaded<T> childBuilder;
-  final List<Widget> actions;
+  final String? title;
+  final Widget ?fab;
+  final RequestWidgetBuilderLoaded<T>? childBuilder;
+  final List<Widget>? actions;
 
   const RequestSimplePage({
     @required this.title,
@@ -84,11 +84,11 @@ class RequestSimplePage<C extends RequestCubit, T> extends StatelessWidget {
 /// This page is similar to `SimplePage`, in regards that it doesn't control state.
 /// It holds a `SliverAppBar` and a plethera of others slivers inside.
 class SliverPage extends StatelessWidget {
-  final String title;
-  final Widget header;
-  final List<Widget> children, actions;
-  final Map<String, String> popupMenu;
-  final ScrollController controller;
+  final String? title;
+  final Widget? header;
+  final List<Widget>? children, actions;
+  final Map<String, String>? popupMenu;
+  final ScrollController? controller;
 
   const SliverPage({
     @required this.title,
@@ -106,26 +106,26 @@ class SliverPage extends StatelessWidget {
       controller: controller,
       slivers: <Widget>[
         SliverBar(
-          title: title,
-          header: header,
+          title: title!,
+          header: header!,
           actions: <Widget>[
             if (popupMenu != null)
               PopupMenuButton<String>(
                 itemBuilder: (context) => [
-                  for (final item in popupMenu.keys)
+                  for (final item in popupMenu!.keys)
                     PopupMenuItem(
                       value: item,
                       child: Text(FlutterI18n.translate(context, item)),
                     )
                 ],
                 onSelected: (text) =>
-                    Navigator.pushNamed(context, popupMenu[text]),
+                    Navigator.pushNamed(context, popupMenu![text]!),
                 icon: IconShadow(Icons.adaptive.more),
               ),
-            if (actions != null) ...actions,
+            if (actions != null) ...actions!,
           ],
         ),
-        ...children,
+        ...children!,
       ],
     );
   }
@@ -136,12 +136,12 @@ class SliverPage extends StatelessWidget {
 ///
 /// This page also has state control via a `RequestCubit` parameter.
 class RequestSliverPage<C extends RequestCubit, T> extends StatelessWidget {
-  final String title;
-  final RequestWidgetBuilderLoaded<T> headerBuilder;
-  final RequestListBuilderLoaded<T> childrenBuilder;
-  final List<Widget> actions;
-  final Map<String, String> popupMenu;
-  final ScrollController controller;
+  final String? title;
+  final RequestWidgetBuilderLoaded<T>? headerBuilder;
+  final RequestListBuilderLoaded<T>? childrenBuilder;
+  final List<Widget>? actions;
+  final Map<String, String>? popupMenu;
+  final ScrollController? controller;
 
   const RequestSliverPage({
     @required this.title,
@@ -168,21 +168,21 @@ class RequestSliverPage<C extends RequestCubit, T> extends StatelessWidget {
           controller: controller,
           title: title,
           header: value != null
-              ? headerBuilder(context, state, value)
+              ? headerBuilder!(context, state, value)
               : Separator.none(),
           actions: actions,
           popupMenu: popupMenu,
           children: value != null
-              ? childrenBuilder(context, state, value)
+              ? childrenBuilder!(context, state, value)
               : [LoadingSliverView()],
         ),
         onLoaded: (context, state, value) => SliverPage(
           controller: controller,
           title: title,
-          header: headerBuilder(context, state, value),
+          header: headerBuilder!(context, state, value),
           actions: actions,
           popupMenu: popupMenu,
-          children: childrenBuilder(context, state, value),
+          children: childrenBuilder!(context, state, value!),
         ),
         onError: (context, state, error) => SliverPage(
           controller: controller,

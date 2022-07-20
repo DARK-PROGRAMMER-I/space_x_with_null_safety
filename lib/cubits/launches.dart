@@ -22,10 +22,10 @@ class LaunchesCubit
     }
   }
 
-  Launch getLaunch(String id) {
+  Launch? getLaunch(String id) {
     if (state.status == RequestStatus.loaded) {
-      return LaunchUtils.getAllLaunches(state.value)
-          .where((l) => l.id == id)
+      return LaunchUtils.getAllLaunches(state.value!)
+          !.where((l) => l.id == id)
           .single;
     } else {
       return null;

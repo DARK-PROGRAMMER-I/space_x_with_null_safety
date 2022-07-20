@@ -7,14 +7,14 @@ import 'index.dart';
 
 // Details about a specific capsule used in a CRS mission
 class CapsuleDetails extends Equatable {
-  final int reuseCount;
-  final int splashings;
-  final String lastUpdate;
-  final List<LaunchDetails> launches;
-  final String serial;
-  final String status;
-  final String type;
-  final String id;
+  final int? reuseCount;
+  final int? splashings;
+  final String? lastUpdate;
+  final List<LaunchDetails>? launches;
+  final String? serial;
+  final String? status;
+  final String? type;
+  final String? id;
 
   const CapsuleDetails({
     this.reuseCount,
@@ -42,24 +42,24 @@ class CapsuleDetails extends Equatable {
     );
   }
 
-  String get getStatus => toBeginningOfSentenceCase(status);
+  String? get getStatus => toBeginningOfSentenceCase(status);
 
-  String getFirstLaunched(BuildContext context) => launches.isNotEmpty
-      ? DateFormat.yMMMMd().format(launches.first.localDate)
+  String? getFirstLaunched(BuildContext context) => launches!.isNotEmpty
+      ? DateFormat.yMMMMd().format(launches!.first.localDate)
       : context.translate('spacex.other.unknown');
 
-  String get getLaunches => launches.length.toString();
+  String get getLaunches => launches!.length.toString();
 
-  bool get hasMissions => launches.isNotEmpty;
+  bool get hasMissions => launches!.isNotEmpty;
 
-  String getDetails(BuildContext context) =>
+  String? getDetails(BuildContext context) =>
       lastUpdate ??
       context.translate('spacex.dialog.vehicle.no_description_capsule');
 
   String get getSplashings => splashings.toString();
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         reuseCount,
         splashings,
         lastUpdate,

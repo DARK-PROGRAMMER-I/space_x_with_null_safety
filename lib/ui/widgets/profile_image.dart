@@ -7,9 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ProfileImage extends StatelessWidget {
   static const smallSize = 40.0, bigSize = 69.0;
 
-  final String url;
-  final num size;
-  final VoidCallback onTap;
+  final String? url;
+  final num? size;
+  final VoidCallback? onTap;
 
   const ProfileImage({
     @required this.url,
@@ -23,20 +23,20 @@ class ProfileImage extends StatelessWidget {
   }
 
   /// Header of a [CardCell] widget.
-  factory ProfileImage.big(String url, {VoidCallback onTap}) {
+  factory ProfileImage.big(String url, {VoidCallback? onTap}) {
     return ProfileImage(url: url, size: bigSize, onTap: onTap);
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size,
-      height: size,
+      width: size!.toDouble(),
+      height: size!.toDouble(),
       child: InkWell(
         onTap: onTap,
         child: url != null
             ? CachedNetworkImage(
-                imageUrl: url,
+                imageUrl: url!,
                 fit: BoxFit.fitHeight,
               )
             : SvgPicture.asset(

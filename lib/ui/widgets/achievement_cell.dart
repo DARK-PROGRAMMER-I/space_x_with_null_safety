@@ -6,11 +6,11 @@ import '../../models/achievement.dart';
 import '../../utils/index.dart';
 
 class AchievementCell extends StatelessWidget {
-  final Achievement achievement;
-  final int index;
+  final Achievement? achievement;
+  final int? index;
 
   const AchievementCell({
-    Key key,
+    Key? key,
     this.achievement,
     this.index,
   }) : super(key: key);
@@ -19,12 +19,12 @@ class AchievementCell extends StatelessWidget {
     return Column(
       children: <Widget>[
         DetailsCell(
-          leading: (index + 1).toString(),
-          title: achievement.name,
-          subtitle: achievement.getDate,
-          body: achievement.details,
-          onTap: achievement.hasLink
-              ? () => context.openUrl(achievement.url)
+          leading: (index! + 1).toString(),
+          title: achievement!.name,
+          subtitle: achievement!.getDate,
+          body: achievement!.details,
+          onTap: achievement!.hasLink
+              ? () => context.openUrl(achievement!.url!)
               : null,
         ),
         Separator.divider(indent: 16),

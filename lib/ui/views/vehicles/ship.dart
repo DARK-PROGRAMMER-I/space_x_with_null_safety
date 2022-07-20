@@ -14,20 +14,20 @@ import '../launches/index.dart';
 
 /// This view all information about a specific ship. It displays Ship's specs.
 class ShipPage extends StatelessWidget {
-  final String id;
+  final String? id;
 
   const ShipPage(this.id);
 
   @override
   Widget build(BuildContext context) {
-    final ShipVehicle _ship = context.watch<VehiclesCubit>().getVehicle(id);
+    final ShipVehicle _ship = context.watch<VehiclesCubit>().getVehicle(id!) as ShipVehicle;
     return Scaffold(
       body: CustomScrollView(slivers: <Widget>[
         SliverBar(
-          title: _ship.name,
+          title: _ship.name!,
           header: InkWell(
             onTap: () => context.openUrl(_ship.getProfilePhoto),
-            child: CacheImage(_ship?.getProfilePhoto),
+            child: CacheImage(_ship.getProfilePhoto),
           ),
           actions: <Widget>[
             IconButton(
@@ -37,21 +37,20 @@ class ShipPage extends StatelessWidget {
                   'spacex.other.share.ship.body',
                   parameters: {
                     'date': _ship.getBuiltFullDate,
-                    'name': _ship.name,
+                    'name': _ship.name!,
                     'role': _ship.primaryRole,
-                    'port': _ship.homePort,
+                    'port': _ship.homePort!,
                     'missions': _ship.hasMissions
                         ? context.translate(
                             'spacex.other.share.ship.missions',
                             parameters: {
-                              'missions': _ship.missions.length.toString()
+                              'missions': _ship.missions!.length.toString()
                             },
-                          )
-                        : context
-                            .translate('spacex.other.share.ship.any_missions'),
+                          )!
+                        : context.translate('spacex.other.share.ship.any_missions')!,
                     'details': Url.shareDetails
                   },
-                ),
+                )!,
               ),
               tooltip: context.translate('spacex.other.menu.share'),
             ),
@@ -60,10 +59,10 @@ class ShipPage extends StatelessWidget {
             for (final item in Menu.ship)
               PopupMenuItem(
                 value: item,
-                child: Text(context.translate(item)),
+                child: Text(context.translate(item)!),
               )
           ],
-          onMenuItemSelected: (text) => context.openUrl(_ship.url),
+          onMenuItemSelected: (text) => context.openUrl(_ship.url!),
         ),
         SliverSafeArea(
           top: false,
@@ -80,81 +79,81 @@ class ShipPage extends StatelessWidget {
   }
 
   Widget _shipCard(BuildContext context) {
-    final ShipVehicle _ship = context.watch<VehiclesCubit>().getVehicle(id);
+    final ShipVehicle _ship = context.watch<VehiclesCubit>().getVehicle(id!)as ShipVehicle;
     return CardCell.body(
       context,
       title: context.translate('spacex.vehicle.ship.description.title'),
       child: RowLayout(children: <Widget>[
         RowItem.text(
-            context.translate('spacex.vehicle.ship.description.home_port'),
-            _ship.homePort),
+            context.translate('spacex.vehicle.ship.description.home_port')!,
+            _ship.homePort!),
         RowItem.text(
-          context.translate('spacex.vehicle.ship.description.built_date'),
+          context.translate('spacex.vehicle.ship.description.built_date')!,
           _ship.getBuiltFullDate,
         ),
         Separator.divider(),
         RowItem.text(
-          context.translate('spacex.vehicle.ship.specifications.feature'),
-          _ship.use,
+          context.translate('spacex.vehicle.ship.specifications.feature')!,
+          _ship.use!,
         ),
         RowItem.text(
-          context.translate('spacex.vehicle.ship.specifications.model'),
-          _ship.getModel(context),
+          context.translate('spacex.vehicle.ship.specifications.model')!,
+          _ship.getModel(context)!,
         ),
       ]),
     );
   }
 
   Widget _specsCard(BuildContext context) {
-    final ShipVehicle _ship = context.watch<VehiclesCubit>().getVehicle(id);
+    final ShipVehicle _ship = context.watch<VehiclesCubit>().getVehicle(id!)as ShipVehicle;
     return CardCell.body(
       context,
       title: context.translate('spacex.vehicle.ship.specifications.title'),
       child: RowLayout(children: <Widget>[
         RowItem.text(
-          context.translate('spacex.vehicle.ship.specifications.role_primary'),
+          context.translate('spacex.vehicle.ship.specifications.role_primary')!,
           _ship.primaryRole,
         ),
         if (_ship.hasSeveralRoles)
           RowItem.text(
             context.translate(
               'spacex.vehicle.ship.specifications.role_secondary',
-            ),
+            )!,
             _ship.secondaryRole,
           ),
         RowItem.text(
-          context.translate('spacex.vehicle.ship.specifications.status'),
-          _ship.getStatus(context),
+          context.translate('spacex.vehicle.ship.specifications.status')!,
+          _ship.getStatus(context)!,
         ),
         Separator.divider(),
         RowItem.text(
-          context.translate('spacex.vehicle.ship.specifications.mass'),
-          _ship.getMass(context),
+          context.translate('spacex.vehicle.ship.specifications.mass')!,
+          _ship.getMass(context)!,
         ),
         RowItem.text(
-          context.translate('spacex.vehicle.ship.specifications.speed'),
-          _ship.getSpeed(context),
+          context.translate('spacex.vehicle.ship.specifications.speed')!,
+          _ship.getSpeed(context)!,
         ),
       ]),
     );
   }
 
   Widget _missionsCard(BuildContext context) {
-    final ShipVehicle _ship = context.watch<VehiclesCubit>().getVehicle(id);
+    final ShipVehicle _ship = context.watch<VehiclesCubit>().getVehicle(id!)as ShipVehicle;
     return CardCell.body(
       context,
       title: context.translate('spacex.vehicle.ship.missions.title'),
       child: _ship.hasMissions
           ? RowLayout(
               children: <Widget>[
-                if (_ship.missions.length > 5) ...[
-                  for (final mission in _ship.missions.sublist(0, 5))
+                if (_ship.missions!.length > 5) ...[
+                  for (final mission in _ship.missions!.sublist(0, 5))
                     RowTap(
                       context.translate(
                         'spacex.vehicle.ship.missions.mission',
                         parameters: {'number': mission.flightNumber.toString()},
                       ),
-                      mission.name,
+                      mission.name!,
                       onTap: () => Navigator.pushNamed(
                         context,
                         LaunchPage.route,
@@ -164,7 +163,7 @@ class ShipPage extends StatelessWidget {
                   ExpandChild(
                     child: RowLayout(
                       children: <Widget>[
-                        for (final mission in _ship.missions.sublist(5))
+                        for (final mission in _ship.missions!.sublist(5))
                           RowTap(
                             context.translate(
                               'spacex.vehicle.ship.missions.mission',
@@ -172,7 +171,7 @@ class ShipPage extends StatelessWidget {
                                 'number': mission.flightNumber.toString()
                               },
                             ),
-                            mission.name,
+                            mission.name!,
                             onTap: () => Navigator.pushNamed(
                               context,
                               LaunchPage.route,
@@ -183,13 +182,13 @@ class ShipPage extends StatelessWidget {
                     ),
                   )
                 ] else
-                  for (final mission in _ship.missions)
+                  for (final mission in _ship.missions!)
                     RowTap(
                       context.translate(
                         'spacex.vehicle.ship.missions.mission',
                         parameters: {'number': mission.flightNumber.toString()},
                       ),
-                      mission.name,
+                      mission.name!,
                       onTap: () => Navigator.pushNamed(
                         context,
                         LaunchPage.route,
@@ -199,11 +198,11 @@ class ShipPage extends StatelessWidget {
               ],
             )
           : Text(
-              context.translate('spacex.vehicle.ship.missions.no_missions'),
+              context.translate('spacex.vehicle.ship.missions.no_missions')!,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15,
-                color: Theme.of(context).textTheme.caption.color,
+                color: Theme.of(context).textTheme.caption?.color,
               ),
             ),
     );

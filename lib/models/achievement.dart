@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 /// Auxiliary model to storage specific SpaceX's achievments.
 class Achievement extends Equatable {
-  final String id, name, details, url;
-  final DateTime date;
+  final String? id, name, details, url;
+  final DateTime? date;
 
   const Achievement({
     this.id,
@@ -24,12 +24,12 @@ class Achievement extends Equatable {
     );
   }
 
-  String get getDate => DateFormat.yMMMMd().format(date);
+  String get getDate => DateFormat.yMMMMd().format(date!);
 
   bool get hasLink => url != null;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         name,
         details,

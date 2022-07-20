@@ -12,11 +12,11 @@ import '../../widgets/index.dart';
 /// This view displays information about a specific landpad,
 /// where rockets now land.
 class LandpadPage extends StatelessWidget {
-  final String launchId;
-  final String coreId;
+  final String? launchId;
+  final String? coreId;
 
   const LandpadPage({
-    Key key,
+    Key? key,
     this.launchId,
     this.coreId,
   }) : super(key: key);
@@ -27,49 +27,49 @@ class LandpadPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final landpad = context
         .watch<LaunchesCubit>()
-        .getLaunch(launchId)
-        .rocket
-        .getCore(coreId)
+        .getLaunch(launchId!)
+        !.rocket!
+        .getCore(coreId!)
         .landpad;
 
     return Scaffold(
       body: SliverPage(
-        title: landpad.name,
-        header: CacheImage(landpad.imageUrl),
+        title: landpad!.name!,
+        header: CacheImage(landpad.imageUrl!),
         children: <Widget>[
           SliverSafeArea(
             top: false,
             sliver: SliverToBoxAdapter(
               child: RowLayout.body(children: <Widget>[
                 Text(
-                  landpad.fullName,
+                  landpad.fullName!,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.pad.status'),
-                  landpad.getStatus,
+                  context.translate('spacex.dialog.pad.status')!,
+                  landpad.getStatus!,
                 ),
-                RowItem.text(context.translate('spacex.dialog.pad.location'),
-                    landpad.locality),
+                RowItem.text(context.translate('spacex.dialog.pad.location')!,
+                    landpad.locality!),
                 RowItem.text(
-                  context.translate('spacex.dialog.pad.state'),
-                  landpad.region,
+                  context.translate('spacex.dialog.pad.state')!,
+                  landpad.region!,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.pad.coordinates'),
+                  context.translate('spacex.dialog.pad.coordinates')!,
                   landpad.getCoordinates,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.pad.landing_type'),
-                  landpad.type,
+                  context.translate('spacex.dialog.pad.landing_type')!,
+                  landpad.type!,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.pad.landings_successful'),
+                  context.translate('spacex.dialog.pad.landings_successful')!,
                   landpad.getSuccessfulLandings,
                 ),
                 Separator.divider(),
-                ExpandText(landpad.details)
+                ExpandText(landpad.details!)
               ]),
             ),
           ),

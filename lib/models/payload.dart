@@ -7,19 +7,19 @@ import 'index.dart';
 
 /// Specific details about an one-of-a-kink space payload.
 class Payload extends Equatable {
-  final CapsuleDetails capsule;
-  final String name;
-  final bool reused;
-  final String customer;
-  final String nationality;
-  final String manufacturer;
-  final num mass;
-  final String orbit;
-  final num periapsis;
-  final num apoapsis;
-  final num inclination;
-  final num period;
-  final String id;
+  final CapsuleDetails? capsule;
+  final String? name;
+  final bool? reused;
+  final String? customer;
+  final String? nationality;
+  final String? manufacturer;
+  final num? mass;
+  final String? orbit;
+  final num? periapsis;
+  final num? apoapsis;
+  final num? inclination;
+  final num? period;
+  final String? id;
 
   const Payload({
     this.capsule,
@@ -63,40 +63,40 @@ class Payload extends Equatable {
     );
   }
 
-  String getName(BuildContext context) =>
+  String? getName(BuildContext context) =>
       name ?? context.translate('spacex.other.unknown');
 
-  String getCustomer(BuildContext context) =>
+  String? getCustomer(BuildContext context) =>
       customer ?? context.translate('spacex.other.unknown');
 
-  String getNationality(BuildContext context) =>
+  String? getNationality(BuildContext context) =>
       nationality ?? context.translate('spacex.other.unknown');
 
-  String getManufacturer(BuildContext context) =>
+  String? getManufacturer(BuildContext context) =>
       manufacturer ?? context.translate('spacex.other.unknown');
 
-  String getOrbit(BuildContext context) =>
+  String? getOrbit(BuildContext context) =>
       orbit ?? context.translate('spacex.other.unknown');
 
-  String getMass(BuildContext context) => mass == null
+  String? getMass(BuildContext context) => mass == null
       ? context.translate('spacex.other.unknown')
       : '${NumberFormat.decimalPattern().format(mass)} kg';
 
-  String getPeriapsis(BuildContext context) => periapsis == null
+  String? getPeriapsis(BuildContext context) => periapsis == null
       ? context.translate('spacex.other.unknown')
-      : '${NumberFormat.decimalPattern().format(periapsis.round())} km';
+      : '${NumberFormat.decimalPattern().format(periapsis?.round())} km';
 
-  String getApoapsis(BuildContext context) => apoapsis == null
+  String? getApoapsis(BuildContext context) => apoapsis == null
       ? context.translate('spacex.other.unknown')
-      : '${NumberFormat.decimalPattern().format(apoapsis.round())} km';
+      : '${NumberFormat.decimalPattern().format(apoapsis?.round())} km';
 
-  String getInclination(BuildContext context) => inclination == null
+  String? getInclination(BuildContext context) => inclination == null
       ? context.translate('spacex.other.unknown')
-      : '${NumberFormat.decimalPattern().format(inclination.round())}°';
+      : '${NumberFormat.decimalPattern().format(inclination?.round())}°';
 
-  String getPeriod(BuildContext context) => period == null
+  String? getPeriod(BuildContext context) => period == null
       ? context.translate('spacex.other.unknown')
-      : '${NumberFormat.decimalPattern().format(period.round())} min';
+      : '${NumberFormat.decimalPattern().format(period?.round())} min';
 
   bool get isNasaPayload =>
       customer == 'NASA (CCtCap)' ||
@@ -104,7 +104,7 @@ class Payload extends Equatable {
       customer == 'NASA(COTS)';
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         capsule,
         name,
         reused,

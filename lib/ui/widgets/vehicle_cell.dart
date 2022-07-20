@@ -7,9 +7,9 @@ import '../views/vehicles/index.dart';
 import 'index.dart';
 
 class VehicleCell extends StatelessWidget {
-  final Vehicle vehicle;
+  final Vehicle? vehicle;
 
-  const VehicleCell(this.vehicle, {Key key}) : super(key: key);
+  const VehicleCell(this.vehicle, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +17,14 @@ class VehicleCell extends StatelessWidget {
       ListCell(
         leading: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
-          child: ProfileImage.small(vehicle.getProfilePhoto),
+          child: ProfileImage.small(vehicle!.getProfilePhoto),
         ),
-        title: vehicle.name,
-        subtitle: vehicle.subtitle(context),
+        title: vehicle!.name,
+        subtitle: vehicle!.subtitle(context),
         onTap: () => Navigator.pushNamed(
           context,
           VehiclePage.route,
-          arguments: {'id': vehicle.id},
+          arguments: {'id': vehicle!.id},
         ),
       ),
       Separator.divider(indent: 72)

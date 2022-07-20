@@ -6,22 +6,22 @@ import 'index.dart';
 
 /// General information about a ship used by SpaceX.
 class ShipVehicle extends Vehicle {
-  final String model;
-  final String use;
-  final String homePort;
-  final String status;
-  final List<String> roles;
-  final List<LaunchDetails> missions;
-  final num speed;
+  final String? model;
+  final String? use;
+  final String? homePort;
+  final String? status;
+  final List<String>? roles;
+  final List<LaunchDetails>? missions;
+  final num? speed;
 
-  const ShipVehicle({
-    String id,
-    String name,
-    String url,
-    num mass,
-    bool active,
-    DateTime firstFlight,
-    List<String> photos,
+  ShipVehicle({
+    String ?id,
+    String? name,
+    String? url,
+    num? mass,
+    bool ?active,
+    DateTime? firstFlight,
+    List<String>? photos,
     this.model,
     this.use,
     this.roles,
@@ -64,32 +64,32 @@ class ShipVehicle extends Vehicle {
   @override
   String subtitle(BuildContext context) => context.translate(
         'spacex.vehicle.subtitle.ship_built',
-        parameters: {'date': firstFlight.year.toString()},
-      );
+        parameters: {'date': firstFlight!.year.toString()},
+      )!;
 
-  String getModel(BuildContext context) =>
+  String? getModel(BuildContext context) =>
       model ?? context.translate('spacex.other.unknown');
 
-  bool get hasSeveralRoles => roles.length > 1;
+  bool get hasSeveralRoles => roles!.length > 1;
 
-  String get primaryRole => roles[0];
+  String get primaryRole => roles![0];
 
-  String get secondaryRole => roles[1];
+  String get secondaryRole => roles![1];
 
-  bool get hasMissions => missions.isNotEmpty;
+  bool get hasMissions => missions!.isNotEmpty;
 
-  String getStatus(BuildContext context) => status?.isNotEmpty == true
+  String ?getStatus(BuildContext context) => status?.isNotEmpty == true
       ? status
       : context.translate('spacex.other.unknown');
 
   String get getBuiltFullDate => year;
 
-  String getSpeed(BuildContext context) => speed == null
+  String? getSpeed(BuildContext context) => speed == null
       ? context.translate('spacex.other.unknown')
-      : '${NumberFormat.decimalPattern().format(speed * 1.852)} km/h';
+      : '${NumberFormat.decimalPattern().format(speed! * 1.852)} km/h';
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         name,
         url,

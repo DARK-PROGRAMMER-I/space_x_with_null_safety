@@ -7,24 +7,24 @@ import 'index.dart';
 
 /// General information about a Falcon rocket.
 class RocketVehicle extends Vehicle {
-  final num stages, launchCost, successRate;
-  final List<PayloadWeight> payloadWeights;
-  final Engine engine;
-  final Stage firstStage, secondStage;
-  final List<double> fairingDimensions;
+  final num? stages, launchCost, successRate;
+  final List<PayloadWeight>? payloadWeights;
+  final Engine ?engine;
+  final Stage? firstStage, secondStage;
+  final List<double> ?fairingDimensions;
 
-  const RocketVehicle({
-    String id,
-    String name,
-    String type,
-    String description,
-    String url,
-    num height,
-    num diameter,
-    num mass,
-    bool active,
-    DateTime firstFlight,
-    List<String> photos,
+  RocketVehicle({
+    String? id,
+    String? name,
+    String? type,
+    String? description,
+    String ?url,
+    num ?height,
+    num ?diameter,
+    num ?mass,
+    bool? active,
+    DateTime? firstFlight,
+    List<String>? photos,
     this.stages,
     this.launchCost,
     this.successRate,
@@ -82,7 +82,7 @@ class RocketVehicle extends Vehicle {
   @override
   String subtitle(BuildContext context) => firstLaunched(context);
 
-  String getStages(BuildContext context) => context.translate(
+  String? getStages(BuildContext context) => context.translate(
         'spacex.vehicle.rocket.specifications.stages',
         parameters: {'stages': stages.toString()},
       );
@@ -90,21 +90,21 @@ class RocketVehicle extends Vehicle {
   String get getLaunchCost =>
       NumberFormat.currency(symbol: "\$", decimalDigits: 0).format(launchCost);
 
-  String getSuccessRate(BuildContext context) =>
-      DateTime.now().isAfter(firstFlight)
-          ? NumberFormat.percentPattern().format(successRate / 100)
+  String? getSuccessRate(BuildContext context) =>
+      DateTime.now().isAfter(firstFlight!)
+          ? NumberFormat.percentPattern().format(successRate! / 100)
           : context.translate('spacex.other.no_data');
 
-  String fairingHeight(BuildContext context) => fairingDimensions[0] == null
+  String? fairingHeight(BuildContext context) => fairingDimensions?[0] == null
       ? context.translate('spacex.other.unknown')
-      : '${NumberFormat.decimalPattern().format(fairingDimensions[0])} m';
+      : '${NumberFormat.decimalPattern().format(fairingDimensions?[0])} m';
 
-  String fairingDiameter(BuildContext context) => fairingDimensions[1] == null
+  String? fairingDiameter(BuildContext context) => fairingDimensions?[1] == null
       ? context.translate('spacex.other.unknown')
-      : '${NumberFormat.decimalPattern().format(fairingDimensions[1])} m';
+      : '${NumberFormat.decimalPattern().format(fairingDimensions?[1])} m';
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         name,
         type,
@@ -129,14 +129,14 @@ class RocketVehicle extends Vehicle {
 
 /// Auxiliar model used to storage rocket's engine data.
 class Engine extends Equatable {
-  final num thrustSea;
-  final num thrustVacuum;
-  final num thrustToWeight;
-  final num ispSea;
-  final num ispVacuum;
-  final String name;
-  final String fuel;
-  final String oxidizer;
+  final num? thrustSea;
+  final num? thrustVacuum;
+  final num ?thrustToWeight;
+  final num? ispSea;
+  final num? ispVacuum;
+  final String? name;
+  final String? fuel;
+  final String ?oxidizer;
 
   const Engine({
     this.thrustSea,
@@ -168,7 +168,7 @@ class Engine extends Equatable {
   String get getThrustVacuum =>
       '${NumberFormat.decimalPattern().format(thrustVacuum)} kN';
 
-  String getThrustToWeight(BuildContext context) => thrustToWeight == null
+  String? getThrustToWeight(BuildContext context) => thrustToWeight == null
       ? context.translate('spacex.other.unknown')
       : NumberFormat.decimalPattern().format(thrustToWeight);
 
@@ -177,14 +177,14 @@ class Engine extends Equatable {
   String get getIspVacuum =>
       '${NumberFormat.decimalPattern().format(ispVacuum)} s';
 
-  String get getName => toBeginningOfSentenceCase(name);
+  String? get getName => toBeginningOfSentenceCase(name);
 
-  String get getFuel => toBeginningOfSentenceCase(fuel);
+  String? get getFuel => toBeginningOfSentenceCase(fuel);
 
-  String get getOxidizer => toBeginningOfSentenceCase(oxidizer);
+  String ?get getOxidizer => toBeginningOfSentenceCase(oxidizer);
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         thrustSea,
         thrustVacuum,
         thrustToWeight,
@@ -218,10 +218,10 @@ class PayloadWeight extends Equatable {
 
 /// General information about a specific stage of a Falcon rocket.
 class Stage extends Equatable {
-  final bool reusable;
-  final num engines;
-  final num fuelAmount;
-  final num thrust;
+  final bool? reusable;
+  final num? engines;
+  final num? fuelAmount;
+  final num? thrust;
 
   const Stage({
     this.reusable,
@@ -239,14 +239,14 @@ class Stage extends Equatable {
     );
   }
 
-  String getEngines(BuildContext context) => context.translate(
+  String? getEngines(BuildContext context) => context.translate(
         engines == 1
             ? 'spacex.vehicle.rocket.stage.engine_number'
             : 'spacex.vehicle.rocket.stage.engines_number',
         parameters: {'number': engines.toString()},
       );
 
-  String getFuelAmount(BuildContext context) => context.translate(
+  String? getFuelAmount(BuildContext context) => context.translate(
         'spacex.vehicle.rocket.stage.fuel_amount_tons',
         parameters: {'tons': NumberFormat.decimalPattern().format(fuelAmount)},
       );
@@ -254,7 +254,7 @@ class Stage extends Equatable {
   String get getThrust => '${NumberFormat.decimalPattern().format(thrust)} kN';
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         reusable,
         engines,
         fuelAmount,

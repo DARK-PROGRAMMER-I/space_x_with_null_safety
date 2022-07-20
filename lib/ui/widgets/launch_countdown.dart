@@ -9,7 +9,7 @@ import '../../utils/translate.dart';
 
 /// Stateful widget used to display a countdown to the next launch.
 class LaunchCountdown extends StatefulWidget {
-  final DateTime launchDate;
+  final DateTime? launchDate;
 
   const LaunchCountdown(this.launchDate);
 
@@ -19,7 +19,7 @@ class LaunchCountdown extends StatefulWidget {
 
 class _LaunchCountdownState extends State<LaunchCountdown>
     with TickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState() {
@@ -27,16 +27,16 @@ class _LaunchCountdownState extends State<LaunchCountdown>
     _controller = AnimationController(
       vsync: this,
       duration: Duration(
-        seconds: widget.launchDate.millisecondsSinceEpoch -
+        seconds: widget.launchDate!.millisecondsSinceEpoch -
             DateTime.now().millisecondsSinceEpoch,
       ),
     );
-    _controller.forward(from: 0.0);
+    _controller!.forward(from: 0.0);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -44,27 +44,27 @@ class _LaunchCountdownState extends State<LaunchCountdown>
   Widget build(BuildContext context) {
     return Countdown(
       animation: StepTween(
-        begin: widget.launchDate.millisecondsSinceEpoch,
+        begin: widget.launchDate!.millisecondsSinceEpoch,
         end: DateTime.now().millisecondsSinceEpoch,
-      ).animate(_controller),
-      launchDate: widget.launchDate,
+      ).animate(_controller!),
+      launchDate: widget.launchDate!,
     );
   }
 }
 
 class Countdown extends AnimatedWidget {
-  final Animation<int> animation;
-  final DateTime launchDate;
+  final Animation<int>? animation;
+  final DateTime? launchDate;
 
   const Countdown({
-    Key key,
+    Key? key,
     this.animation,
     this.launchDate,
-  }) : super(key: key, listenable: animation);
+  }) : super(key: key, listenable: animation as Listenable);
 
   @override
   Widget build(BuildContext context) {
-    final Duration _launchDateDiff = launchDate.difference(DateTime.now());
+    final Duration _launchDateDiff = launchDate!.difference(DateTime.now());
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -105,29 +105,29 @@ class Countdown extends AnimatedWidget {
   }
 
   Widget _countdownChild({
-    BuildContext context,
-    String title,
-    String description,
+    BuildContext? context,
+    String ?title,
+    String? description,
   }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        _countdownText(context: context, text: title, fontSize: 42),
-        _countdownText(context: context, text: description, fontSize: 16),
+        _countdownText(context: context!, text: title!, fontSize: 42),
+        _countdownText(context: context, text: description!, fontSize: 16),
       ],
     );
   }
 
-  Widget _countdownText({BuildContext context, double fontSize, String text}) {
+  Widget _countdownText({BuildContext? context, double? fontSize, String? text}) {
     return Text(
-      text,
+      text!,
       style: GoogleFonts.robotoMono(
         fontSize: fontSize,
         color: Colors.white,
         shadows: [
           Shadow(
             blurRadius: 4,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context!).primaryColor,
           ),
         ],
       ),

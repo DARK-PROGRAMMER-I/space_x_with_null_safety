@@ -12,11 +12,11 @@ import 'index.dart';
 /// This view displays information about a specific core,
 /// used in a mission.
 class CorePage extends StatelessWidget {
-  final String launchId;
-  final String coreId;
+  final String? launchId;
+  final String? coreId;
 
   const CorePage({
-    Key key,
+    Key? key,
     this.launchId,
     this.coreId,
   }) : super(key: key);
@@ -27,15 +27,15 @@ class CorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final core = context
         .watch<LaunchesCubit>()
-        .getLaunch(launchId)
-        .rocket
-        .getCore(coreId);
+        .getLaunch(launchId!)
+        !.rocket
+        !.getCore(coreId!);
 
     return Scaffold(
       body: SliverPage(
         title: context.translate(
           'spacex.dialog.vehicle.title_core',
-          parameters: {'serial': core.serial},
+          parameters: {'serial': core.serial!},
         ),
         header: SwiperHeader(list: List.from(SpaceXPhotos.cores)..shuffle()),
         children: <Widget>[
@@ -44,38 +44,38 @@ class CorePage extends StatelessWidget {
             sliver: SliverToBoxAdapter(
               child: RowLayout.body(children: <Widget>[
                 RowItem.text(
-                  context.translate('spacex.dialog.vehicle.model'),
-                  core.getBlock(context),
+                  context.translate('spacex.dialog.vehicle.model')!,
+                  core.getBlock(context)!,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.vehicle.status'),
-                  core.getStatus,
+                  context.translate('spacex.dialog.vehicle.status')!,
+                  core.getStatus!,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.vehicle.first_launched'),
-                  core.getFirstLaunched(context),
+                  context.translate('spacex.dialog.vehicle.first_launched')!,
+                  core.getFirstLaunched(context)!,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.vehicle.launches'),
+                  context.translate('spacex.dialog.vehicle.launches')!,
                   core.getLaunches,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.vehicle.landings_rtls'),
+                  context.translate('spacex.dialog.vehicle.landings_rtls')!,
                   core.getRtlsLandings,
                 ),
                 RowItem.text(
-                  context.translate('spacex.dialog.vehicle.landings_asds'),
+                  context.translate('spacex.dialog.vehicle.landings_asds')!,
                   core.getAsdsLandings,
                 ),
                 Separator.divider(),
                 if (core.hasMissions) ...[
-                  for (final mission in core.launches)
+                  for (final mission in core.launches!)
                     RowTap(
                       context.translate(
                         'spacex.dialog.vehicle.mission',
                         parameters: {'number': mission.flightNumber.toString()},
                       ),
-                      mission.name,
+                      mission.name!,
                       onTap: () => Navigator.pushNamed(
                         context,
                         LaunchPage.route,
@@ -84,7 +84,7 @@ class CorePage extends StatelessWidget {
                     ),
                   Separator.divider()
                 ],
-                ExpandText(core.getDetails(context))
+                ExpandText(core.getDetails(context)!)
               ]),
             ),
           ),

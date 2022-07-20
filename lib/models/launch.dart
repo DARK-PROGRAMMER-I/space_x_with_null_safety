@@ -8,23 +8,23 @@ import 'index.dart';
 
 /// Details about a specific launch, performed by a Falcon rocket,
 /// including launch & landing pads, rocket & payload information...
-class Launch extends Equatable implements Comparable<Launch> {
-  final String patchUrl;
-  final List<String> links;
-  final List<String> photos;
-  final DateTime staticFireDate;
-  final int launchWindow;
-  final bool success;
-  final FailureDetails failure;
-  final String details;
-  final RocketDetails rocket;
-  final LaunchpadDetails launchpad;
-  final int flightNumber;
-  final String name;
-  final DateTime launchDate;
-  final String datePrecision;
-  final bool upcoming;
-  final String id;
+class Launch extends Equatable implements Comparable<Launch?> {
+  final String? patchUrl;
+  final List<String>? links;
+  final List<String>? photos;
+  final DateTime? staticFireDate;
+  final int ?launchWindow;
+  final bool ?success;
+  final FailureDetails? failure;
+  final String? details;
+  final RocketDetails? rocket;
+  final LaunchpadDetails? launchpad;
+  final int? flightNumber;
+  final String? name;
+  final DateTime? launchDate;
+  final String? datePrecision;
+  final bool? upcoming;
+  final String? id;
 
   const Launch({
     this.patchUrl,
@@ -76,44 +76,44 @@ class Launch extends Equatable implements Comparable<Launch> {
   }
 
   @override
-  int compareTo(Launch other) => flightNumber.compareTo(other.flightNumber);
+  int compareTo(Launch? other) => flightNumber!.compareTo(other!.flightNumber!);
 
-  String getLaunchWindow(BuildContext context) {
+  String? getLaunchWindow(BuildContext context) {
     if (launchWindow == null) {
       return context.translate('spacex.other.unknown');
     } else if (launchWindow == 0) {
       return context.translate(
         'spacex.launch.page.rocket.instantaneous_window',
       );
-    } else if (launchWindow < 60) {
+    } else if (launchWindow! < 60) {
       return '$launchWindow s';
-    } else if (launchWindow < 3600) {
-      return '${(launchWindow / 60).truncate()} min';
-    } else if (launchWindow % 3600 == 0) {
-      return '${(launchWindow / 3600).truncate()} h';
+    } else if (launchWindow!  < 3600) {
+      return '${(launchWindow!  / 60).truncate()} min';
+    } else if (launchWindow!  % 3600 == 0) {
+      return '${(launchWindow!  / 3600).truncate()} h';
     } else {
-      return '${(launchWindow ~/ 3600).truncate()}h ${((launchWindow / 3600 - launchWindow ~/ 3600) * 60).truncate()}min';
+      return '${(launchWindow ! ~/ 3600).truncate()}h ${((launchWindow! / 3600 - launchWindow! ~/ 3600) * 60).truncate()}min';
     }
   }
 
-  DateTime get localLaunchDate => launchDate?.toLocal();
+  DateTime? get localLaunchDate => launchDate?.toLocal();
 
-  DateTime get localStaticFireDate => staticFireDate?.toLocal();
+  DateTime? get localStaticFireDate => staticFireDate?.toLocal();
 
   String get getNumber => '#${NumberFormat('00').format(flightNumber)}';
 
   bool get hasPatch => patchUrl != null;
 
-  bool get hasVideo => links[0] != null;
+  bool get hasVideo => links?[0] != null;
 
-  String get getVideo => links[0];
+  String get getVideo => links![0];
 
   bool get tentativeTime => datePrecision != 'hour';
 
   String getDetails(BuildContext context) =>
-      details ?? context.translate('spacex.launch.page.no_description');
+      details ?? context.translate('spacex.launch.page.no_description')!;
 
-  String getLaunchDate(BuildContext context) {
+  String? getLaunchDate(BuildContext context) {
     switch (datePrecision) {
       case 'hour':
         return context.translate(
@@ -122,7 +122,7 @@ class Launch extends Equatable implements Comparable<Launch> {
             'date': getTentativeDate,
             'hour': getTentativeTime,
           },
-        );
+        )!;
       default:
         return context.translate(
           'spacex.other.date.upcoming',
@@ -134,48 +134,48 @@ class Launch extends Equatable implements Comparable<Launch> {
   String get getTentativeDate {
     switch (datePrecision) {
       case 'hour':
-        return DateFormat.yMMMMd().format(localLaunchDate);
+        return DateFormat.yMMMMd().format(localLaunchDate!);
       case 'day':
-        return DateFormat.yMMMMd().format(localLaunchDate);
+        return DateFormat.yMMMMd().format(localLaunchDate!);
       case 'month':
-        return DateFormat.yMMMM().format(localLaunchDate);
+        return DateFormat.yMMMM().format(localLaunchDate!);
       case 'quarter':
-        return DateFormat.yQQQ().format(localLaunchDate);
+        return DateFormat.yQQQ().format(localLaunchDate!);
       case 'half':
-        return 'H${localLaunchDate.month < 7 ? 1 : 2} ${localLaunchDate.year}';
+        return 'H${localLaunchDate!.month < 7 ? 1 : 2} ${localLaunchDate!.year}';
       case 'year':
-        return DateFormat.y().format(localLaunchDate);
+        return DateFormat.y().format(localLaunchDate!);
       default:
         return 'date error';
     }
   }
 
-  String get getShortTentativeTime => DateFormat.Hm().format(localLaunchDate);
+  String get getShortTentativeTime => DateFormat.Hm().format(localLaunchDate!);
 
   String get getTentativeTime =>
-      '$getShortTentativeTime ${localLaunchDate.timeZoneName}';
+      '$getShortTentativeTime ${localLaunchDate?.timeZoneName}';
 
   bool get isDateTooTentative =>
       datePrecision != 'hour' && datePrecision != 'day';
 
-  String getStaticFireDate(BuildContext context) => staticFireDate == null
+  String? getStaticFireDate(BuildContext context) => staticFireDate == null
       ? context.translate('spacex.other.unknown')
-      : DateFormat.yMMMMd().format(localStaticFireDate);
+      : DateFormat.yMMMMd().format(localStaticFireDate!);
 
-  String get year => localLaunchDate.year.toString();
+  String get year => localLaunchDate!.year.toString();
 
   static int getMenuIndex(String url) => Menu.launch.indexOf(url) + 1;
 
-  bool isUrlEnabled(String url) => links[getMenuIndex(url)] != null;
+  bool isUrlEnabled(String url) => links?[getMenuIndex(url)] != null;
 
-  String getUrl(String name) => links[getMenuIndex(name)];
+  String getUrl(String name) => links![getMenuIndex(name)];
 
-  bool get hasPhotos => photos.isNotEmpty;
+  bool? get hasPhotos => photos?.isNotEmpty;
 
-  bool get avoidedStaticFire => !upcoming && staticFireDate == null;
+  bool get avoidedStaticFire => !upcoming! && staticFireDate == null;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         patchUrl,
         links,
         photos,
@@ -197,11 +197,11 @@ class Launch extends Equatable implements Comparable<Launch> {
 
 /// Auxiliary model to storage all details about a rocket which performed a SpaceX's mission.
 class RocketDetails extends Equatable {
-  final FairingsDetails fairings;
-  final List<Core> cores;
-  final List<Payload> payloads;
-  final String name;
-  final String id;
+  final FairingsDetails? fairings;
+  final List<Core>? cores;
+  final List<Payload>? payloads;
+  final String? name;
+  final String? id;
 
   const RocketDetails({
     this.fairings,
@@ -226,37 +226,37 @@ class RocketDetails extends Equatable {
     );
   }
 
-  bool get isHeavy => cores.length != 1;
+  bool get isHeavy => cores?.length != 1;
 
   bool get hasFairings => fairings != null;
 
-  Core get getSingleCore => cores[0];
+  Core get getSingleCore => cores![0];
 
   bool isSideCore(Core core) {
     if (id == null || !isHeavy) {
       return false;
     } else {
-      return core != cores.first;
+      return core != cores!.first;
     }
   }
 
   bool get isFirstStageNull {
-    for (final core in cores) {
+    for (final core in cores!) {
       if (core.id != null) return false;
     }
     return true;
   }
 
-  bool get hasMultiplePayload => payloads.length > 1;
+  bool get hasMultiplePayload => payloads!.length > 1;
 
-  Payload get getSinglePayload => payloads[0];
+  Payload get getSinglePayload => payloads![0];
 
   bool get hasCapsule => getSinglePayload.capsule != null;
 
-  Core getCore(String id) => cores.where((core) => core.id == id).single;
+  Core getCore(String id) => cores!.where((core) => core.id == id).single;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         fairings,
         cores,
         payloads,
@@ -267,9 +267,9 @@ class RocketDetails extends Equatable {
 
 /// Auxiliary model to storage details about rocket's fairings.
 class FairingsDetails extends Equatable {
-  final bool reused;
-  final bool recoveryAttempt;
-  final bool recovered;
+  final bool? reused;
+  final bool? recoveryAttempt;
+  final bool? recovered;
 
   const FairingsDetails({
     this.reused,
@@ -286,7 +286,7 @@ class FairingsDetails extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         reused,
         recoveryAttempt,
         recovered,
@@ -295,9 +295,9 @@ class FairingsDetails extends Equatable {
 
 /// Auxiliar model to storage details about a launch failure.
 class FailureDetails extends Equatable {
-  final num time;
-  final num altitude;
-  final String reason;
+  final num? time;
+  final num? altitude;
+  final String? reason;
 
   const FailureDetails({this.time, this.altitude, this.reason});
 
@@ -310,8 +310,8 @@ class FailureDetails extends Equatable {
   }
 
   String get getTime {
-    final StringBuffer buffer = StringBuffer('T${time.isNegative ? '-' : '+'}');
-    final int auxTime = time.abs();
+    final StringBuffer buffer = StringBuffer('T${time!.isNegative ? '-' : '+'}');
+    final int auxTime = time!.abs().toInt();
 
     if (auxTime < 60) {
       buffer.write('${NumberFormat.decimalPattern().format(auxTime)} s');
@@ -325,14 +325,14 @@ class FailureDetails extends Equatable {
     return buffer.toString();
   }
 
-  String getAltitude(BuildContext context) => altitude == null
+  String? getAltitude(BuildContext context) => altitude == null
       ? context.translate('spacex.other.unknown')
       : '${NumberFormat.decimalPattern().format(altitude)} km';
 
-  String get getReason => toBeginningOfSentenceCase(reason);
+  String ?get getReason => toBeginningOfSentenceCase(reason);
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         time,
         altitude,
         reason,
